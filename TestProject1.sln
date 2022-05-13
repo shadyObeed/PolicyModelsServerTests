@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{73B44F90-40CE-4CBA-B02A-B0819BADF42A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMEServerTests", "PMEServerTests\PMEServerTests.csproj", "{73B44F90-40CE-4CBA-B02A-B0819BADF42A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
