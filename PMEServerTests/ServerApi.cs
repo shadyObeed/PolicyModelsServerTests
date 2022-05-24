@@ -13,27 +13,35 @@ namespace TestProject1
         {
         }
 
-        public async Task<string> GetModels()
+        public async Task<JArray> GetModels()
         {
             var endpoint = $"models/";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             var res = await response.Content.ReadAsStringAsync();
-            return res;
+            return JArray.Parse(res);
         }
 
-
-        public async Task<string> GetModelLanguages(string modelId)
+        public async Task<JArray> GetModelLanguages(string modelId)
         {
             var endpoint = $"{modelId}/start";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            var res = await response.Content.ReadAsStringAsync();
+            return JArray.Parse(res);
         }
+        
 
-        public async Task<JObject> StartInterview(string modelId, int versionId, string languageId)
+        public async Task<JObject> StartInterview(string modelId, string versionId, string languageId)
         {
             var endpoint = $"{modelId}/{versionId}/{languageId}/start";
+            HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+            return JObject.Parse(await response.Content.ReadAsStringAsync());
+        }
+        public async Task<JObject> GetTags(string userID)
+        {
+            var endpoint = $"/apiInterviewCtrl/getTags/{userID}";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -43,6 +51,23 @@ namespace TestProject1
             string questionId)
         {
             var endpoint = $"ask/";
+            HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+            return JObject.Parse(await response.Content.ReadAsStringAsync());
+        }
+        public async Task<JObject> AnswerWithGet(string uuid, string modelId, string versionId, string languageId,
+            string questionId, string answer)
+        {
+            var endpoint = $"answer/{uuid}/{modelId}/{versionId}/{languageId}/{questionId}/{answer}/";
+            HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
+            response.EnsureSuccessStatusCode();
+            return JObject.Parse(await response.Content.ReadAsStringAsync());
+        }
+        
+        public async Task<JObject> GetHistory(string uuid, string modelId, string versionId, string languageId,
+            string questionId)
+        {
+            var endpoint = $"askHistory/{uuid}/{modelId}/{versionId}/{languageId}/{questionId}/";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -85,13 +110,7 @@ namespace TestProject1
             return content;
         }
 
-        public async Task<string> GetLanguages(string modelId)
-        {
-            var endpoint = $"{modelId}/start";
-            HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
-        }
+
     }
 
     public class CreateCommandContent
