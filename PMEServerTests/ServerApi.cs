@@ -9,7 +9,7 @@ namespace TestProject1
 {
     public class ServerApi : BaseApi
     {
-        public ServerApi() : base($"http://localhost:9000/apiInterviewCtrl/")
+        public ServerApi() : base($"https://policymodelsserver.azurewebsites.net/apiInterviewCtrl/")
         {
         }
 
@@ -24,7 +24,7 @@ namespace TestProject1
 
         public async Task<JArray> GetModelLanguages(string modelId)
         {
-            var endpoint = $"{modelId}/start";
+            var endpoint = $"{modelId}/start/";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             var res = await response.Content.ReadAsStringAsync();
@@ -34,14 +34,14 @@ namespace TestProject1
 
         public async Task<JObject> StartInterview(string modelId, string versionId, string languageId)
         {
-            var endpoint = $"{modelId}/{versionId}/{languageId}/start";
+            var endpoint = $"{modelId}/{versionId}/{languageId}/start/";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return JObject.Parse(await response.Content.ReadAsStringAsync());
         }
-        public async Task<JObject> GetTags(string userID)
+        public async Task<JObject> GetTags(string userID,string modelId,string versionId,string languageId)
         {
-            var endpoint = $"/apiInterviewCtrl/getTags/{userID}";
+            var endpoint = $"/apiInterviewCtrl/getTags/{userID}/{modelId}/{versionId}/{languageId}/";
             HttpResponseMessage response = await HttpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode();
             return JObject.Parse(await response.Content.ReadAsStringAsync());
@@ -77,7 +77,7 @@ namespace TestProject1
             string questionId, string answer)
         {
             var content = getAnswerContent(uuid, modelId, versionId, languageId, questionId, answer);
-            var endpoint = $"answer/";
+            var endpoint = $"answerPost/";
             HttpResponseMessage response = null;
             try
             {
